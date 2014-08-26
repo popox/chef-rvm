@@ -29,6 +29,12 @@ if perform_install_rubies
                   :gems => node['rvm']['gems']
 end
 
+# Set ENV[:PATH] with rvm
+ENV["PATH"] += ":/usr/local/rvm/bin" # make rvm work right after being installed
+bash 'create rvm wrappers' do
+  code("rvm wrapper #{node['rvm']['default_ruby']}")
+end
+
 # add users to rvm group
 group 'rvm' do
   members node['rvm']['group_users']
